@@ -1,0 +1,40 @@
+{
+  "name": "pagination-expressjs",
+  "version": "1.0.0",
+  "description": "Web App template for pagination using express",
+  "scripts": {
+    "start": "node ./server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/syepesc/Pagination-ExpressJS.git"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "pagination",
+    "mongo"
+  ],
+  "author": "Santiago Yepes",
+  "license": "GNU",
+  "bugs": {
+    "url": "https://github.com/syepesc/Pagination-ExpressJS/issues"
+  },
+  "homepage": "https://github.com/syepesc/Pagination-ExpressJS#readme",
+  "dependencies": {
+    "@fortawesome/fontawesome-free": "^5.15.1",
+    "bootstrap": "^4.5.3",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^8.2.0",
+    "ejs": "^3.1.5",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.0",
+    "express-session": "^1.17.1",
+    "jquery": "^3.5.1",
+    "mongoose": "^5.10.11",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  }
+}
