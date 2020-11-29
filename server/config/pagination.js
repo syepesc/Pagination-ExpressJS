@@ -1,3 +1,6 @@
+const express = require('express');
+const mongoose = require('mongoose');
+
 // VANILLA JS PAGINATION
 /*
 for pagination we are always receiving an array of objects
@@ -35,7 +38,7 @@ const model = [
 ];
 
 // the model must be and array of items or objects
-function Paginate(model) {
+function paginate(model) {
     const page = req.query.page;
     const itemsPerPage = req.query.itemsPerPage;
 
@@ -65,19 +68,15 @@ function Paginate(model) {
 }
 */
 
-// route
-app.get('/users', (req, res) => {
- 
-});
-
-
-function Paginate(model) {
-    return (req, res, next) => {
+// Mongo pagination
+module.exports.paginate = function(model) {
+    // to create a middleware we need to return a function with req, res and next parameters
+    return async (req, res, next) => {
 
         // URL Example = http://www.ourWebPage.com/users?page=1&itemsPerPage=5
 
-        const page = req.query.page;
-        const itemsPerPage = req.query.itemsPerPage;
+        const page = parseInt(req.query.page);
+        const itemsPerPage = parseInt(req.query.itemsPerPage);
 
         // page 1 = (1 - 1) * 5 = 0 <--- so we grab the item on the position[0] of the objects array
         // page 2 = (2 -1) * 5 = 5 <-- so page 2 will start on the position[5] of the objects array
@@ -87,7 +86,7 @@ function Paginate(model) {
         // create a results object to store more pagination data as next page or previous
         const results = {};
 
-        if (endIndex < model.length) {
+        if (endIndex < await model.countDocuments().exec()) {
             results.nextPage = {
                 page: page + 1,
                 itemsPerPage: itemsPerPage
@@ -100,11 +99,15 @@ function Paginate(model) {
             itemsPerPage: itemsPerPage
         }
 
-        // we use the slice method to take the objects between the start and end index of the objects array
-        results.result = model.slice(startIndex, endIndex); 
-        
-        // create a field inside the result object (paginationResult) to pass to the next() middleware
-        res.paginationResult = results;
-        next();
+        try {
+            // instead od vanilla JS slice() method we are going to use MongoDB (mongoose) methods
+            results.result = await model.find().limit(itemsPerPage).skip(startIndex).exec();
+            
+            // create a field inside the result object (paginationResult) to pass to the next() middleware
+            res.paginationResult = results;
+            next();
+        } catch (e) {
+            res.status(500).json( {message: e.message });
+        }
     }
 }

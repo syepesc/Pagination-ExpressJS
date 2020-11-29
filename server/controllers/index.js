@@ -1,12 +1,18 @@
 const express = require('express');
 
+// import pagination
+const pagination = require('../config/pagination');
+
+// create book model instance
+let Book = require('../models/book');
+
 // INDEX CONTROLLERS
 module.exports = {
     displayHomePage: (req, res) => {
-        res.render('home', { title: 'Home - Passport->LocalStrategy' });
+        res.render('home', { title: 'Pagination - Home' });
     },
 
-    displayDashboardPage: (req, res) => {
-        res.render('dashboard', { title: 'Dashboard - Passport->LocalStrategy', name: req.user.name });
+    displayListPage: (req, res) => {
+        res.render('list', { title: 'Pagination - Items list', paginationResult: res.paginationResult});
     }
 }
