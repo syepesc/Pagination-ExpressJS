@@ -1,1 +1,49 @@
-<%= paginationResult.result %>
+<!-- JUMBOTRON -->
+<div class="row">
+    <div class="col text-center">
+        <div class="jumbotron">
+            <h1 class="display-4">Pagination Controllers</h1>
+            <hr class="my-4">
+            <a class="btn btn-warning btn-lg" href="/list?page=1&itemsPerPage=5" role="button">Generate Items!</a>
+            <br>
+            <br>
+            <a class="btn btn-secondary btn-lg">Items per Page</a>
+            <a class="btn btn-success btn-lg" href="/list?page=1&itemsPerPage=5">+</a>
+            <a class="btn btn-danger btn-lg" href="/list?page=1&itemsPerPage=5">-</a>
+        </div>
+    </div>
+</div>
+
+<!-- PAGINATION CONTROLLERS -->
+<div class="row">
+    <div class="col">
+        <ul class="pagination justify-content-center">
+            <% if (paginationResult.previousPage) { %>
+                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <% } %>
+            
+            <!-- take total items and divided by items per page to know how many pages are needed to display all the items -->
+            <% for(let i = 0; i <= Math.floor(paginationResult.totalItems / paginationResult.itemsPerPage); i++) { %>
+                <!-- conditional to determine the active page for styling pagination button -->
+                <% if (paginationResult.page === i + 1) { %>
+                    <li class="page-item active">
+                <% } else { %>
+                    <li class="page-item">
+                <% } %>
+                <a class="page-link" href="#"><%= i + 1 %></a></li>
+            <% } %>
+
+            <% if (paginationResult.nextPage) { %>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <% } %>
+        </ul>
+    </div>
+</div>
+
+<!-- ITEM LIST -->
+<div class="row">
+    <div class="col">
+        
+    </div>
+</div>
+

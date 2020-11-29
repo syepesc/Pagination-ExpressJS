@@ -3,10 +3,8 @@ let router = express.Router();
 
 // create book model instance
 let Book = require('../models/book');
-
 // import index controller
 let indexController = require('../controllers/index');
-
 // import pagination
 let pagination = require('../config/pagination');
 
