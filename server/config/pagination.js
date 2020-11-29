@@ -86,6 +86,7 @@ module.exports.paginate = function(model) {
         // create a results object to store more pagination data as next page or previous
         const results = {};
 
+
         results.page = page;
         results.itemsPerPage = itemsPerPage;
         results.totalItems = await model.countDocuments().exec();

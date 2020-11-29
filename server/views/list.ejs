@@ -4,12 +4,13 @@
         <div class="jumbotron">
             <h1 class="display-4">Pagination Controllers</h1>
             <hr class="my-4">
-            <a class="btn btn-warning btn-lg" href="/list?page=1&itemsPerPage=5" role="button">Generate Items!</a>
+            <a class="btn btn-secondary btn-lg" href="/"><i class="fas fa-home"></i></a>
+            <a class="btn btn-primary btn-lg" href="/list?page=1&itemsPerPage=5">Generate Items!</a>
             <br>
             <br>
-            <a class="btn btn-secondary btn-lg">Items per Page</a>
-            <a class="btn btn-success btn-lg" href="/list?page=1&itemsPerPage=5">+</a>
-            <a class="btn btn-danger btn-lg" href="/list?page=1&itemsPerPage=5">-</a>
+            <h2 class="btn btn-ligth btn-lg">Items per Page -></h2>
+            <a class="btn btn-success btn-lg" href="/list?page=1&itemsPerPage=<%= paginationResult.itemsPerPage + 1 %>">+</a>
+            <a class="btn btn-danger btn-lg" href="/list?page=1&itemsPerPage=<%= paginationResult.itemsPerPage - 1 %>">-</a>
         </div>
     </div>
 </div>
@@ -19,22 +20,22 @@
     <div class="col">
         <ul class="pagination justify-content-center">
             <% if (paginationResult.previousPage) { %>
-                <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                <li class="page-item"><a class="page-link" href="/list?page=<%= paginationResult.previousPage.page %>&itemsPerPage=<%= paginationResult.itemsPerPage %>">Previous</a></li>
             <% } %>
             
             <!-- take total items and divided by items per page to know how many pages are needed to display all the items -->
-            <% for(let i = 0; i <= Math.floor(paginationResult.totalItems / paginationResult.itemsPerPage); i++) { %>
+            <% for(let i = 0; i < Math.floor(paginationResult.totalItems / paginationResult.itemsPerPage); i++) { %>
                 <!-- conditional to determine the active page for styling pagination button -->
                 <% if (paginationResult.page === i + 1) { %>
                     <li class="page-item active">
                 <% } else { %>
                     <li class="page-item">
                 <% } %>
-                <a class="page-link" href="#"><%= i + 1 %></a></li>
+                <a class="page-link" href="/list?page=<%= i + 1 %>&itemsPerPage=<%= paginationResult.itemsPerPage %>"><%= i + 1 %></a></li>
             <% } %>
 
             <% if (paginationResult.nextPage) { %>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+            <li class="page-item"><a class="page-link" href="/list?page=<%= paginationResult.nextPage.page %>&itemsPerPage=<%= paginationResult.itemsPerPage %>">Next</a></li>
             <% } %>
         </ul>
     </div>
@@ -43,7 +44,33 @@
 <!-- ITEM LIST -->
 <div class="row">
     <div class="col">
-        
+        <table class="table">
+            <!-- Header Row-->
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" class="text-center">Title</th>
+                    <th scope="col" class="text-center">Author</th>
+                    <th scope="col" class="text-center">Published</th>
+                    <th scope="col" class="text-center">Description</th>
+                    <th scope="col" class="text-center">Price</th>
+                </tr>
+            </thead>
+  
+            <tbody>
+                <!-- Repeatable Template Row -->
+                <% for(let i = 0; i < paginationResult.itemsPerPage; i++) { %>
+                    <tr>
+                        <td class="text-center"><%= paginationResult.result[i].title %></td>
+                        <td class="text-center"><%= paginationResult.result[i].author %></td>
+                        <td class="text-center"><%= paginationResult.result[i].published %></td>
+                        <td class="text-center"><%= paginationResult.result[i].description %></td>
+                        <td class="text-center"><%= paginationResult.result[i].price %></td>
+                    </tr>
+                <% } %>
+            </tbody>
+          </table>
     </div>
 </div>
 
+
+<!-- TODO: fix limits on modifying items per page (creating functions on pagination config) -->
