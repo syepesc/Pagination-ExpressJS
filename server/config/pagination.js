@@ -77,6 +77,7 @@ module.exports.paginate = function(model) {
 
         const page = parseInt(req.query.page);
         const itemsPerPage = parseInt(req.query.itemsPerPage);
+        const totalItems = await model.countDocuments().exec();
 
         // page 1 = (1 - 1) * 5 = 0 <--- so we grab the item on the position[0] of the objects array
         // page 2 = (2 -1) * 5 = 5 <-- so page 2 will start on the position[5] of the objects array
@@ -89,9 +90,9 @@ module.exports.paginate = function(model) {
 
         results.page = page;
         results.itemsPerPage = itemsPerPage;
-        results.totalItems = await model.countDocuments().exec();
+        results.totalItems = totalItems;
 
-        if (endIndex < await model.countDocuments().exec()) {
+        if (endIndex < totalItems) {
             results.nextPage = {
                 page: page + 1,
                 itemsPerPage: itemsPerPage

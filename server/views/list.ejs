@@ -24,7 +24,7 @@
             <% } %>
             
             <!-- take total items and divided by items per page to know how many pages are needed to display all the items -->
-            <% for(let i = 0; i < Math.floor(paginationResult.totalItems / paginationResult.itemsPerPage); i++) { %>
+            <% for(let i = 0; i < Math.ceil(paginationResult.totalItems / paginationResult.itemsPerPage); i++) { %>
                 <!-- conditional to determine the active page for styling pagination button -->
                 <% if (paginationResult.page === i + 1) { %>
                     <li class="page-item active">
@@ -44,31 +44,33 @@
 <!-- ITEM LIST -->
 <div class="row">
     <div class="col">
-        <table class="table">
-            <!-- Header Row-->
-            <thead class="thead-light">
-                <tr>
-                    <th scope="col" class="text-center">Title</th>
-                    <th scope="col" class="text-center">Author</th>
-                    <th scope="col" class="text-center">Published</th>
-                    <th scope="col" class="text-center">Description</th>
-                    <th scope="col" class="text-center">Price</th>
-                </tr>
-            </thead>
-  
-            <tbody>
-                <!-- Repeatable Template Row -->
-                <% for(let i = 0; i < paginationResult.itemsPerPage; i++) { %>
+        <% if (paginationResult.page) { %> 
+            <table class="table">
+                <!-- Header Row-->
+                <thead class="thead-light">
                     <tr>
-                        <td class="text-center"><%= paginationResult.result[i].title %></td>
-                        <td class="text-center"><%= paginationResult.result[i].author %></td>
-                        <td class="text-center"><%= paginationResult.result[i].published %></td>
-                        <td class="text-center"><%= paginationResult.result[i].description %></td>
-                        <td class="text-center"><%= paginationResult.result[i].price %></td>
+                        <th scope="col" class="text-center">Title</th>
+                        <th scope="col" class="text-center">Author</th>
+                        <th scope="col" class="text-center">Published</th>
+                        <th scope="col" class="text-center">Description</th>
+                        <th scope="col" class="text-center">Price</th>
                     </tr>
-                <% } %>
-            </tbody>
-          </table>
+                </thead>
+    
+                <tbody>
+                    <!-- Repeatable Template Row -->
+                    <% for(let i = 0; i < paginationResult.result.length; i++) { %>
+                        <tr>
+                            <td class="text-center"><%= paginationResult.result[i].title %></td>
+                            <td class="text-center"><%= paginationResult.result[i].author %></td>
+                            <td class="text-center"><%= paginationResult.result[i].published %></td>
+                            <td class="text-center"><%= paginationResult.result[i].description %></td>
+                            <td class="text-center"><%= paginationResult.result[i].price %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        <% } %>
     </div>
 </div>
 
